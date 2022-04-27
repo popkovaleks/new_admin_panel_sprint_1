@@ -4,16 +4,27 @@ import uuid
 from django.db import models
 
 # Create your models here.
-class Genre(models.Model):
+
+class TimeStampedMixin(models.Model):
+    created = models.DateTimeField(auto_now_add=True)
+    modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class UUIDMixin(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    class Meta:
+        abstract = True
+
+
+class Genre(UUIDMixin, TimeStampedMixin):
 
     name = models.CharField('name', max_length=255)
 
     description = models.TextField('description', blank=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-
-    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "content\".\"genre"
@@ -25,8 +36,7 @@ class Genre(models.Model):
         return self.name
 
 
-class Filmwork(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+class Filmwork(UUIDMixin, TimeStampedMixin):
 
     title = models.CharField('title', max_length=255)
 
@@ -44,15 +54,13 @@ class Filmwork(models.Model):
 
     type = models.CharField(max_length=255, choices=FilmworkType.choices)
 
-    created = models.DateTimeField(auto_now_add=True)
-
-    modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "content\".\"film_work"
 
         verbose_name = "Кинопроизведение"
         verbose_name_plural = "Кинопроизведения"
+
 
     def __str__(self):
         return self.title
