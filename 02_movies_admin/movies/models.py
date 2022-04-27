@@ -32,9 +32,9 @@ class Filmwork(models.Model):
 
     description = models.TextField('description', blank=True)
 
-    creation_date = models.DateField('creation_date')
+    creation_date = models.DateField('creation_date', blank=True)
 
-    rating = models.FloatField('rating')
+    rating = models.FloatField('rating', blank=True)
 
 
     class FilmworkType(models.TextChoices):
