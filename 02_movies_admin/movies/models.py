@@ -2,6 +2,7 @@ import uuid
 
 
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 
@@ -44,7 +45,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
 
     creation_date = models.DateField('creation_date', blank=True)
 
-    rating = models.FloatField('rating', blank=True)
+    rating = models.FloatField('rating', blank=True, validators=[MinValueValidator(0), MaxValueValidator(0)])
 
 
     class FilmworkType(models.TextChoices):
