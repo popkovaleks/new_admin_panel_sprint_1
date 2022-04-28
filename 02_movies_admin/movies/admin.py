@@ -23,6 +23,8 @@ class FilmworkAdmin(admin.ModelAdmin):
 
     list_filter = ('type',)
 
+    search_fields = ('title', 'description', 'id', )
+
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     pass
