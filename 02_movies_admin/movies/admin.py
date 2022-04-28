@@ -19,6 +19,8 @@ class GenreAdmin(admin.ModelAdmin):
 class FilmworkAdmin(admin.ModelAdmin):
     inlines = (GenreFilmworkInline, PersonFilmworkInline)
 
+    list_display = ('title', 'type', 'creation_date', 'rating',)
+    
 
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
