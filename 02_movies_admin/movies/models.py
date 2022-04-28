@@ -78,4 +78,4 @@ class GenreFilmwork(UUIDMixin):
 
 
     class Meta:
-        db_table = "content\".\genre_film_work"
+        db_table = "content\".\"genre_film_work"
