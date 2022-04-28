@@ -85,6 +85,8 @@ class GenreFilmwork(UUIDMixin):
 class Person(UUIDMixin, TimeStampedMixin):
     full_name = models.TextField("full name")
 
+    film_work = models.ForeignKey(Filmwork, through='PersonFilmwork')
+    
     class Meta:
         db_table = "content\".\"person"
 
