@@ -54,7 +54,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         TV_SHOW = 'TV_SHOW'
 
 
-    type = models.CharField(max_length=255, choices=FilmworkType.choices)
+    type = models.CharField('type', max_length=255, choices=FilmworkType.choices)
 
     genres = models.ManyToManyField(Genre, through='GenreFilmwork')
 
