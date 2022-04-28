@@ -4,6 +4,7 @@ import uuid
 
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
@@ -24,9 +25,9 @@ class UUIDMixin(models.Model):
 
 class Genre(UUIDMixin, TimeStampedMixin):
 
-    name = models.CharField('name', max_length=255)
+    name = models.CharField(_('name'), max_length=255)
 
-    description = models.TextField('description', blank=True)
+    description = models.TextField(_('description'), blank=True)
 
     class Meta:
         db_table = "content\".\"genre"
@@ -40,21 +41,21 @@ class Genre(UUIDMixin, TimeStampedMixin):
 
 class Filmwork(UUIDMixin, TimeStampedMixin):
 
-    title = models.CharField('title', max_length=255)
+    title = models.CharField(_('title'), max_length=255)
 
-    description = models.TextField('description', blank=True)
+    description = models.TextField(_('description'), blank=True)
 
-    creation_date = models.DateField('creation_date', blank=True)
+    creation_date = models.DateField(_('creation date'), blank=True)
 
-    rating = models.FloatField('rating', blank=True, validators=[MinValueValidator(0), MaxValueValidator(0)])
+    rating = models.FloatField(_('rating'), blank=True, validators=[MinValueValidator(0), MaxValueValidator(0)])
 
 
     class FilmworkType(models.TextChoices):
-        MOVIE = 'movie'
-        TV_SHOW = 'TV_SHOW'
+        MOVIE = _('Movie')
+        TV_SHOW = _('TV show')
 
 
-    type = models.CharField('type', max_length=255, choices=FilmworkType.choices)
+    type = models.CharField(_('type'), max_length=255, choices=FilmworkType.choices)
 
     genres = models.ManyToManyField(Genre, through='GenreFilmwork')
 
@@ -83,7 +84,7 @@ class GenreFilmwork(UUIDMixin):
 
 
 class Person(UUIDMixin, TimeStampedMixin):
-    full_name = models.TextField("full name")
+    full_name = models.TextField(_("full name"))
 
     film_work = models.ManyToManyField(Filmwork, through='PersonFilmwork')
 
@@ -102,7 +103,7 @@ class PersonFilmwork(UUIDMixin):
 
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
 
-    role = models.TextField('role', null=True)
+    role = models.TextField(_('role'), null=True)
 
     created = models.DateTimeField(auto_now_add=True)
 
