@@ -85,13 +85,16 @@ class GenreFilmwork(UUIDMixin):
 class Person(UUIDMixin, TimeStampedMixin):
     full_name = models.TextField("full name")
 
-    film_work = models.ForeignKey(Filmwork, through='PersonFilmwork')
-    
+    film_work = models.ManyToManyField(Filmwork, through='PersonFilmwork')
+
     class Meta:
         db_table = "content\".\"person"
 
         verbose_name = "Человек"
         verbose_name_plural = "Люди"
+
+    def __str__(self):
+        return self.full_name
 
 
 class PersonFilmwork(UUIDMixin):
