@@ -1,3 +1,4 @@
+from tabnanny import verbose
 import uuid
 
 
@@ -79,3 +80,26 @@ class GenreFilmwork(UUIDMixin):
 
     class Meta:
         db_table = "content\".\"genre_film_work"
+
+
+class Person(UUIDMixin, TimeStampedMixin):
+    full_name = models.TextField("full name")
+
+    class Meta:
+        db_table = "content\".\"person"
+
+        verbose_name = "Человек"
+        verbose_name_plural = "Люди"
+
+
+class PersonFilmwork(UUIDMixin):
+    film_work = models.ForeignKey('Filmwork', on_delete=models.CASCADE)
+
+    person = models.ForeignKey('Person', on_delete=models.CASCADE)
+
+    role = models.TextField('role', null=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "content\".\"person_film_work"
