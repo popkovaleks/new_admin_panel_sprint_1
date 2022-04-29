@@ -51,11 +51,11 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
 
 
     class FilmworkType(models.TextChoices):
-        MOVIE = _('Movie')
-        TV_SHOW = _('TV show')
+        MOVIE = 'M', _('Movie')
+        TV_SHOW = 'TV', _('TV show')
 
 
-    type = models.CharField(_('type'), max_length=255, choices=FilmworkType.choices)
+    type = models.CharField(_('type'), max_length=2, choices=FilmworkType.choices)
 
     genres = models.ManyToManyField(Genre, through='GenreFilmwork')
 
@@ -81,6 +81,9 @@ class GenreFilmwork(UUIDMixin):
 
     class Meta:
         db_table = "content\".\"genre_film_work"
+
+        verbose_name = _('Genre Filmwork')
+        verbose_name_plural = _('Genres Filmworks')
 
 
 class Person(UUIDMixin, TimeStampedMixin):
@@ -109,3 +112,6 @@ class PersonFilmwork(UUIDMixin):
 
     class Meta:
         db_table = "content\".\"person_film_work"
+
+        verbose_name = _('person of filmwork')
+        verbose_name_plural = _('persons of filmwork')
