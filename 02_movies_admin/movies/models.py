@@ -59,6 +59,10 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
 
     genres = models.ManyToManyField(Genre, through='GenreFilmwork')
 
+    certificate = models.CharField(_('certificate'), max_length=512, blank=True)
+
+    file_path = models.FileField(_('file'), blank=True, null=True, upload_to='movies/')
+
 
     class Meta:
         db_table = "content\".\"film_work"
