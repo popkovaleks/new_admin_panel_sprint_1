@@ -1,4 +1,3 @@
-from tabnanny import verbose
 import uuid
 
 
@@ -7,6 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
+
 
 class TimeStampedMixin(models.Model):
     created = models.DateTimeField(auto_now_add=True)
@@ -47,25 +47,27 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
 
     creation_date = models.DateField(_('creation date'), blank=True)
 
-    rating = models.FloatField(_('rating'), blank=True, validators=[MinValueValidator(0), MaxValueValidator(0)])
-
+    rating = models.FloatField(_('rating'), blank=True, validators=[
+                                                        MinValueValidator(0),
+                                                        MaxValueValidator(0)
+                                                        ])
 
     class FilmworkType(models.TextChoices):
         MOVIE = 'M', _('Movie')
         TV_SHOW = 'TV', _('TV show')
 
-
-    type = models.CharField(_('type'), max_length=2, choices=FilmworkType.choices)
+    type = models.CharField(
+        _('type'),
+        max_length=2,
+        choices=FilmworkType.choices)
 
     genres = models.ManyToManyField(Genre, through='GenreFilmwork')
-
 
     class Meta:
         db_table = "content\".\"film_work"
 
         verbose_name = "Кинопроизведение"
         verbose_name_plural = "Кинопроизведения"
-
 
     def __str__(self):
         return self.title
@@ -77,7 +79,6 @@ class GenreFilmwork(UUIDMixin):
     genre = models.ForeignKey('Genre', on_delete=models.CASCADE)
 
     created = models.DateTimeField(auto_now_add=True)
-
 
     class Meta:
         db_table = "content\".\"genre_film_work"

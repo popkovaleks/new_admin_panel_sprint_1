@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Genre, Filmwork, Person, GenreFilmwork, PersonFilmwork
 # Register your models here.
 
+
 class GenreFilmworkInline(admin.TabularInline):
     model = GenreFilmwork
 
@@ -33,4 +34,3 @@ class PersonAdmin(admin.ModelAdmin):
     list_display = ('full_name',)
 
     search_fields = ('id', 'full_name',)
-
