@@ -90,7 +90,7 @@ class PostgresSaver:
             query_insert_person_filmworks = '''insert into content.person_film_work
             (id, film_work_id, person_id, role, created)
             values (%s, %s, %s, %s, %s)
-            on conflict do nothing;
+            on conflict (id) do nothing;
             '''
             data_person_filmworks = [(
                 person_filmwork.id,
@@ -113,7 +113,7 @@ class PostgresSaver:
             query_insert_genre_filmworks = '''insert into content.genre_film_work
             (id, genre_id, film_work_id, created)
             values (%s, %s, %s, %s)
-            on conflict do nothing;
+            on conflict (id) do nothing;
             '''
             data_genre_filmworks = [(
                 genre_filmwork.id,
