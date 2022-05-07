@@ -5,7 +5,6 @@ from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.utils.translation import gettext_lazy as _
 
-# Create your models here.
 
 
 class TimeStampedMixin(models.Model):
@@ -35,6 +34,10 @@ class Genre(UUIDMixin, TimeStampedMixin):
         verbose_name = "Жанр"
         verbose_name_plural = "Жанры"
 
+        indexes = [
+            models.Index(fields=['name'], name='genre_name_idx')
+        ]
+
     def __str__(self):
         return self.name
 
@@ -49,7 +52,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
 
     rating = models.FloatField(_('rating'), blank=True, validators=[
                                                         MinValueValidator(0),
-                                                        MaxValueValidator(0)
+                                                        MaxValueValidator(10)
                                                         ])
 
     class FilmworkType(models.TextChoices):
@@ -69,6 +72,10 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
         verbose_name = "Кинопроизведение"
         verbose_name_plural = "Кинопроизведения"
 
+        indexes = [
+            models.Index(fields=['creation_date'], name='film_work_creation_date_idx')
+        ]
+
     def __str__(self):
         return self.title
 
@@ -86,6 +93,10 @@ class GenreFilmwork(UUIDMixin):
         verbose_name = _('Genre Filmwork')
         verbose_name_plural = _('Genres Filmworks')
 
+        constraints = [
+            models.UniqueConstraint(fields=['film_work', 'genre'], name='genre_film_work_idx')
+        ]
+
 
 class Person(UUIDMixin, TimeStampedMixin):
     full_name = models.TextField(_("full name"))
@@ -98,6 +109,10 @@ class Person(UUIDMixin, TimeStampedMixin):
         verbose_name = "Человек"
         verbose_name_plural = "Люди"
 
+        indexes = [
+            models.Index(fields=['full_name'], name='person_full_name_idx')
+        ]
+
     def __str__(self):
         return self.full_name
 
@@ -107,7 +122,15 @@ class PersonFilmwork(UUIDMixin):
 
     person = models.ForeignKey('Person', on_delete=models.CASCADE)
 
-    role = models.TextField(_('role'), null=True)
+    class Role(models.TextChoices):
+        DIRECTOR = 'Dir', _('Director')
+        SCREENWRITER = 'ScrWrtr', _('Screenwriter')
+        ACTOR = 'Act', _('Actor')
+
+    role = models.CharField(_('role'),
+                            null=True,
+                            max_length=7,
+                            choices=Role.choices)
 
     created = models.DateTimeField(auto_now_add=True)
 
@@ -116,3 +139,7 @@ class PersonFilmwork(UUIDMixin):
 
         verbose_name = _('person of filmwork')
         verbose_name_plural = _('persons of filmwork')
+
+        constraints = [
+            models.UniqueConstraint(fields=['film_work', 'person'], name='person_full_name_idx')
+        ]
