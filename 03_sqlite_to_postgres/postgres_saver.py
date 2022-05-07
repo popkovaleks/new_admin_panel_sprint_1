@@ -1,3 +1,4 @@
+import logging
 from psycopg2.extras import execute_batch
 
 
@@ -38,8 +39,8 @@ class PostgresSaver:
                 data_film_work,
                 page_size=PAGE_SIZE)
         except Exception as e:
-            print("Загрузка в postgres таблица content.film_work")
-            print(e)
+            logging.info("Загрузка в postgres таблица content.film_work")
+            logging.exception(e)
 
         try:
             query_insert_persons = '''insert into content.person
@@ -60,8 +61,8 @@ class PostgresSaver:
                 data_person,
                 page_size=PAGE_SIZE)
         except Exception as e:
-            print("Загрузка в postgres таблица content.person")
-            print(e)
+            logging.info("Загрузка в postgres таблица content.person")
+            logging.exception(e)
 
         try:
             query_insert_genres = '''insert into content.genre
@@ -83,8 +84,8 @@ class PostgresSaver:
                 data_genre,
                 page_size=PAGE_SIZE)
         except Exception as e:
-            print("Загрузка в postgres таблица content.genre")
-            print(e)
+            logging.info("Загрузка в postgres таблица content.genre")
+            logging.exception(e)
 
         try:
             query_insert_person_filmworks = '''insert into content.person_film_work
@@ -106,8 +107,10 @@ class PostgresSaver:
                 data_person_filmworks,
                 page_size=PAGE_SIZE)
         except Exception as e:
-            print("Загрузка в postgres таблица content.person_film_work")
-            print(e)
+            logging.info(
+                "Загрузка в postgres таблица content.person_film_work"
+                )
+            logging.exception(e)
 
         try:
             query_insert_genre_filmworks = '''insert into content.genre_film_work
@@ -128,7 +131,5 @@ class PostgresSaver:
                 data_genre_filmworks,
                 page_size=PAGE_SIZE)
         except Exception as e:
-            print("Загрузка в postgres таблица content.genre_film_work")
-            print(e)
-
-        self.cur.close()
+            logging.info("Загрузка в postgres таблица content.genre_film_work")
+            logging.exception(e)
